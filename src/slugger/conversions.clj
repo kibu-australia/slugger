@@ -51,7 +51,7 @@
 (def CURRENCY_RULES {
         #"(\s|^)\$([\d|,| ]+)\.(\d+)(\s|$)" " $2 dollars $3 cents "
         #"(\s|^)\€([\d|,| ]+)\.(\d+)(\s|$)" " $2 euros $3 cents "
-        #"(\s|^)£([\d|,| ]+)\.(\d+)(\s|$)" " $2 pounds $3 pence "})
+        #"(\s|^)£([\d|,| ]+)\.(\d+)(\s|$)"  " $2 pounds $3 pence "})
 
 (defn convert-currency 
   "Convert misc money values with cents to text."
@@ -63,10 +63,11 @@
         #"\s*#" " number "
         #"\s*@\s*" " at "
         #"(\S|^)\.(\S)" "$1 dot $2"
-        #"(\s|^)\$(\d*)(\s|$)" " $2 dollars "
-        #"(\s|^)\€(\d*)(\s|$)" " $2 euros "
-        #"(\s|^)£(\d*)(\s|$)" " $2 pounds "
-        #"(\s|^)¥(\d*)(\s|$)" " $2 yen "
+        #"(\s|^)\$([\d|,| ]*)(\s|$)" " $2 dollars "
+        #"(\s|^)\€([\d|,| ]*)(\s|$)" " $2 euros "
+        #"(\s|^)£([\d|,| ]*)(\s|$)" " $2 pounds "
+        #"(\s|^)¥([\d|,| ]*)(\s|$)" " $2 yen "
+        #"\s*\+\s*" " plus "
         #"\s*\*\s*" " star "
         #"\s*%\s*" " percent "
         #"\s*(\\|\/)\s*" " slash "
