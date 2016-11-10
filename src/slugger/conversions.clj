@@ -49,9 +49,9 @@
   (reduce #(replace %1 (key %2) (val %2)) text rules))
 
 (def CURRENCY_RULES {
-        #"(\s|^)\$(\d+)\.(\d+)(\s|$)" " $2 dollars $3 cents "
-        #"(\s|^)\€(\d+)\.(\d+)(\s|$)" " $2 euros $3 cents "
-        #"(\s|^)£(\d+)\.(\d+)(\s|$)" " $2 pounds $3 pence "})
+        #"(\s|^)\$([\d|,| ]+)\.(\d+)(\s|$)" " $2 dollars $3 cents "
+        #"(\s|^)\€([\d|,| ]+)\.(\d+)(\s|$)" " $2 euros $3 cents "
+        #"(\s|^)£([\d|,| ]+)\.(\d+)(\s|$)" " $2 pounds $3 pence "})
 
 (defn convert-currency 
   "Convert misc money values with cents to text."
