@@ -1,6 +1,6 @@
 (ns slugger.conversions
   (:refer-clojure :exclude [replace])
-  (:require [clojure.string :refer [replace lower-case trim]])
+  (:require [clojure.string :as s])
   (:import [net.sf.junidecode Junidecode]))
 
 (defn unidecode
@@ -11,12 +11,12 @@
 (defn convert-accented-entities
   "Convert html accent entities to correct 7bit ascii version"
   [text]
-  (replace text #"&([A-Za-z])(grave|acute|circ|tilde|uml|ring|cedil|slash);" #(let [d (lower-case (second %))]
-                                                                                (cond
-                                                                                  (= d "o") "oe"
-                                                                                  (= d "a") "aa"
-                                                                                  (= d "u") "ue"
-                                                                                  :else d))))
+  (s/replace text #"&([A-Za-z])(grave|acute|circ|tilde|uml|ring|cedil|slash);" #(let [d (s/lower-case (second %))]
+                                                                                  (cond
+                                                                                    (= d "o") "oe"
+                                                                                    (= d "a") "aa"
+                                                                                    (= d "u") "ue"
+                                                                                    :else d))))
 
 (def entity-rules {"#822[01]" "\""
                    "#821[67]" "'"
@@ -39,14 +39,14 @@
                    "(#176|deg)" " degrees"})
 
 (defn convert-misc-entities [text]
-  (replace (reduce #(replace %1 (re-pattern (str "&" (key %2) ";")) (val %2)) text entity-rules) #"&[^;]+;" ""))
+  (s/replace (reduce #(s/replace %1 (re-pattern (str "&" (key %2) ";")) (val %2)) text entity-rules) #"&[^;]+;" ""))
 
 (defn convert-rules
   "Convert text by applying rules.
 
-  Rules is a map consisting of a regex as the key and the string as the replacement value."
+  Rules is a map consisting of a regex as the key and the string as the s/replacement value."
   [text rules]
-  (reduce #(replace %1 (key %2) (val %2)) text rules))
+  (reduce #(s/replace %1 (key %2) (val %2)) text rules))
 
 (def currency-rules {#"(\s|^)\$([\d|,| ]+)\.(\d+)(\s|$)" " $2 dollars $3 cents "
                      #"(\s|^)\€([\d|,| ]+)\.(\d+)(\s|$)" " $2 euros $3 cents "
@@ -77,8 +77,8 @@
   (convert-rules text normal-rules))
 
 (defn convert-misc-characters [text]
-  (-> (replace text #"\.{3,}" " dot dot dot ")
+  (-> (s/replace text #"\.{3,}" " dot dot dot ")
       (convert-currency)
       (convert-normal)
-      (replace #"(^|\w)'(\w|$)" "$1$2")
-      (replace (re-pattern "[.,:;()\\[\\]/\\\\?!^'\"_]") " ")))
+      (s/replace #"(^|\w)'(\w|$)" "$1$2")
+      (s/replace (re-pattern "[.,:;()\\[\\]/\\\\?!^'\"_]") " ")))
