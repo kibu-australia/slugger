@@ -1,4 +1,4 @@
-(defproject kibu/slugger "1.0.2"
+(defproject kibu/slugger "1.0.3"
   :description "Create good slugs from unicode data"
   :java-source-paths ["java"]
   :license {:name "Eclipse Public License"

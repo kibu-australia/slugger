@@ -11,7 +11,7 @@ https://github.com/rsl/stringex
 Add the following to your project.clj
 
 ```clojure
-[kibu/slugger "1.0.2"]
+[kibu/slugger "1.0.3"]
 ```
 
 Then you can use it:
