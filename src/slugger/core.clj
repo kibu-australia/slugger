@@ -5,7 +5,8 @@
 (defn ->slug
   "Convert a UTF-8/16 string into a 7 bit ascii representation suitable for use as a slug in a url."
   [text]
-  (-> (c/unidecode text)
+  (-> text
+      c/unidecode
       c/convert-accented-entities
       c/convert-misc-entities
       c/convert-misc-characters
