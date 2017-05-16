@@ -1,5 +1,4 @@
 (ns slugger.conversions
-  (:refer-clojure :exclude [replace])
   (:require [clojure.string :as s])
   (:import [net.sf.junidecode Junidecode]))
 

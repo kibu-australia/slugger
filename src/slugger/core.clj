@@ -1,5 +1,4 @@
 (ns slugger.core
-  (:refer-clojure :exclude [replace])
   (:require [slugger.conversions :as c]
             [clojure.string :as s]))
 
