@@ -18,7 +18,7 @@
                                                                                   (= d "u") "ue"
                                                                                   :else d))))
 
-(def ENTITY_RULES {"#822[01]" "\""
+(def entity-rules {"#822[01]" "\""
                    "#821[67]" "'"
                    "#8230" "..."
                    "#8211" "-"
@@ -39,7 +39,7 @@
                    "(#176|deg)" " degrees"})
 
 (defn convert-misc-entities [text]
-  (replace (reduce #(replace %1 (re-pattern (str "&" (key %2) ";")) (val %2)) text ENTITY_RULES) #"&[^;]+;" ""))
+  (replace (reduce #(replace %1 (re-pattern (str "&" (key %2) ";")) (val %2)) text entity-rules) #"&[^;]+;" ""))
 
 (defn convert-rules
   "Convert text by applying rules.
@@ -48,16 +48,16 @@
   [text rules]
   (reduce #(replace %1 (key %2) (val %2)) text rules))
 
-(def CURRENCY_RULES {#"(\s|^)\$([\d|,| ]+)\.(\d+)(\s|$)" " $2 dollars $3 cents "
+(def currency-rules {#"(\s|^)\$([\d|,| ]+)\.(\d+)(\s|$)" " $2 dollars $3 cents "
                      #"(\s|^)\€([\d|,| ]+)\.(\d+)(\s|$)" " $2 euros $3 cents "
                      #"(\s|^)£([\d|,| ]+)\.(\d+)(\s|$)"  " $2 pounds $3 pence "})
 
 (defn convert-currency
   "Convert misc money values with cents to text."
   [text]
-  (convert-rules text CURRENCY_RULES))
+  (convert-rules text currency-rules))
 
-(def NORMAL_RULES {#"\s*&\s*" " and "
+(def normal-rules {#"\s*&\s*" " and "
                    #"\s*#" " number "
                    #"\s*@\s*" " at "
                    #"(\S|^)\.(\S)" "$1 dot $2"
@@ -74,7 +74,7 @@
 (defn convert-normal
   "Convert various symbols to spelled out English"
   [text]
-  (convert-rules text NORMAL_RULES))
+  (convert-rules text normal-rules))
 
 (defn convert-misc-characters [text]
   (-> (replace text #"\.{3,}" " dot dot dot ")
