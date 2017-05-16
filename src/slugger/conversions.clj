@@ -1,6 +1,6 @@
 (ns slugger.conversions
   (:refer-clojure :exclude [replace])
-  (:use [clojure.string :only [replace lower-case trim]])
+  (:require [clojure.string :refer [replace lower-case trim]])
   (:import [net.sf.junidecode Junidecode]))
 
 (defn unidecode
