@@ -7,9 +7,9 @@
   "Convert a UTF-8/16 string into a 7 bit ascii representation suitable for use as a slug in a url."
   [text]
   (-> (unidecode text)
-      (convert-accented-entities)
-      (convert-misc-entities)
-      (convert-misc-characters)
-      (lower-case)
-      (trim)
-      (replace  #"\s+" "-")))
+      convert-accented-entities
+      convert-misc-entities
+      convert-misc-characters
+      lower-case
+      trim
+      (replace #"\s+" "-")))
