@@ -4,7 +4,17 @@
 
 (deftest simple-slug-test
   (testing "simple slugification"
-    (is (= (->slug " this string   should be simple enough") "this-string-should-be-simple-enough"))))
+    (is (= (->slug " this string   should be simple enough") "this-string-should-be-simple-enough"))
+    (is (= (->slug "WHAT ABOUT CAPITALS?") "what-about-capitals"))
+    (is (= (->slug ")(^!and special chars?") "and-special-chars"))))
+
+(deftest substitution-test
+  (testing "basic substitutions"
+    (is (= (->slug "*") "star"))
+    (is (= (->slug "@") "at"))
+    (is (= (->slug "#") "number"))
+    (is (= (->slug "%") "percent"))
+    (is (= (->slug "&") "and"))))
 
 (deftest kanji-test
   (testing "kanji slugs"
