@@ -1,15 +1,15 @@
 (ns slugger.core
-  (:refer-clojure :exclude [replace])
-  (:use [slugger.conversions]
-        [clojure.string :only [replace lower-case trim]]))
+  (:require [slugger.conversions :as c]
+            [clojure.string :as s]))
 
 (defn ->slug
   "Convert a UTF-8/16 string into a 7 bit ascii representation suitable for use as a slug in a url."
   [text]
-  (-> (unidecode text)
-      (convert-accented-entities)
-      (convert-misc-entities)
-      (convert-misc-characters)
-      (lower-case)
-      (trim)
-      (replace  #"\s+" "-")))
+  (-> text
+      c/convert-accented-entities
+      c/convert-misc-entities
+      c/convert-misc-characters
+      c/unidecode
+      s/lower-case
+      s/trim
+      (s/replace #"\s+" "-")))

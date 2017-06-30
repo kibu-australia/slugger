@@ -11,15 +11,17 @@ https://github.com/rsl/stringex
 Add the following to your project.clj
 
 ```clojure
-[slugger "1.0.1"]
+[kibu/slugger "1.0.3"]
 ```
 
 Then you can use it:
 
 ```clojure
 (use 'slugger.core)
+;; or in your `ns`:
+(require [slugger.core :refer [->slug]])
 
-(->slug "learn how to say 你好") 
+(->slug "learn how to say 你好")
 => "learn-how-to-say-ni-hao"
 
 (->slug "learn how to say 你好")

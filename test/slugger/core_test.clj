@@ -2,12 +2,36 @@
   (:use clojure.test
         slugger.core))
 
+(deftest simple-slug-test
+  (testing "simple slugification"
+    (is (= (->slug " this string   should be simple enough") "this-string-should-be-simple-enough"))
+    (is (= (->slug "WHAT ABOUT CAPITALS?") "what-about-capitals"))
+    (is (= (->slug ")(^!and special chars?") "and-special-chars"))))
 
-(deftest slug-tests
-  (is (= (->slug "learn how to say 你好")  "learn-how-to-say-ni-hao"))
-  (is (= (->slug " this string   should be simple enough")  "this-string-should-be-simple-enough"))
-  (is (= (->slug "Vi vil have mere &Oslash;l")  "vi-vil-have-mere-oel"))
-  (is (= (->slug "Vi vil have mere øl")  "vi-vil-have-mere-oel"))
-  (is (= (->slug "An idea worth $100")  "an-idea-worth-100-dollars"))
-  (is (= (->slug "my email address is pelle@picomoney.com")  "my-email-address-is-pelle-at-picomoney-dot-com"))
-  )
+(deftest substitution-test
+  (testing "basic substitutions"
+    (is (= (->slug "*") "star"))
+    (is (= (->slug "@") "at"))
+    (is (= (->slug "#") "number"))
+    (is (= (->slug "%") "percent"))
+    (is (= (->slug "&") "and"))))
+
+(deftest kanji-test
+  (testing "kanji slugs"
+    (is (= (->slug "learn how to say 你好") "learn-how-to-say-ni-hao"))))
+
+(deftest currency-test
+  (testing "currency slugs"
+    (is (= (->slug "An idea worth $100") "an-idea-worth-100-dollars"))
+    (is (= (->slug "An idea worth ¥100") "an-idea-worth-100-yen"))
+    (is (= (->slug "An idea worth £100") "an-idea-worth-100-pounds"))
+    (is (= (->slug "An idea worth €100") "an-idea-worth-100-euros"))))
+
+(deftest o-slash-test
+  (testing "Scandinavian o-slash"
+    (is (= (->slug "Vi vil have mere &Oslash;l")  "vi-vil-have-mere-oel"))
+    (is (= (->slug "Vi vil have mere øl")         "vi-vil-have-mere-oel"))))
+
+(deftest email-address-test
+  (testing "email address slugification"
+    (is (= (->slug "my email address is pelle@picomoney.com") "my-email-address-is-pelle-at-picomoney-dot-com"))))
